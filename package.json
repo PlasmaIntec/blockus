@@ -1,0 +1,19 @@
+{
+  "name": "blockus",
+  "version": "1.0.0",
+  "description": "it's more like Blockthem, but do go on...",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "PlasmaIntec",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1"
+  }
+}
