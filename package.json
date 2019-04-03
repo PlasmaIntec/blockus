@@ -1,19 +1,31 @@
 {
   "name": "blockus",
   "version": "1.0.0",
-  "description": "it's more like Blockthem, but do go on...",
+  "description": "A Metaphor of Societal Gridlock",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server/index.js",
+    "docker": "node server/index.js",
+    "build": "webpack -d --watch"
   },
   "author": "PlasmaIntec",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
-    "morgan": "^1.9.1"
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "morgan": "^1.9.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-dev-middleware": "^3.6.1",
+    "webpack-hot-middleware": "^2.24.3"
   }
 }

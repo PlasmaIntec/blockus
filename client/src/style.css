@@ -1,0 +1,29 @@
+.board {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.square {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 2em;
+	width: 2em;
+	outline: 1px black dashed;
+	background: orange;
+}
+
+.square:hover {
+	opacity: .5;
+}
+
+.red {
+	background: red;
+}
