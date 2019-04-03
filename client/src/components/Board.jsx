@@ -7,9 +7,9 @@ var Board = ({ board, onClickHandler }) => (
 				<div className='row' key={rowIndex}>
 					{
 						row && row.map((sq, colIndex) => {
-							var className = [];
-							switch(sq) {
-								case 'r':
+							var className = [], sqUpper = sq && sq.toUpperCase();
+							switch(sqUpper) {
+								case 'R':
 									className.push('red');
 								default:
 									className.push('square');

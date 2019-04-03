@@ -3,6 +3,11 @@ import { render } from 'react-dom';
 
 import Board from './Board.jsx';
 // TODO: REFACTOR USING REDUX
+import { 
+	piece, 
+	genBoard, 
+	placePiece
+} from '../gameLogic';
 
 export default class App extends Component {
 	constructor() {
@@ -22,22 +27,24 @@ export default class App extends Component {
 
 	generateBoard() {
   	const { width, height } = this.state;
-		var board = Array(height).fill(0);
-		board = board.map(() => Array(width).fill(0));
-		this.setState({ board: board })
+		const board = genBoard(width, height);
+		board[-1] = { '-1': 'R' };
+		this.setState({ board: board });
 	} 
 
 	onClickHandler(e) {
 		const { board } = this.state;
 		const { row, col } = e.target.dataset;
-		const piece = [[0, 0], [0, 1], [1, 0], [1, 1]];
-		piece.forEach(loc => {
-			var c = loc[0] + +col, r = loc[1] + +row;
-			if (board[r] && !!(board[r][c] !== undefined)) {
-				// ensure the change is within board boundary
-				board[r][c] = 'r';
-			}
-		})
+		// const piece = [[0, 0], [0, 1], [1, 0], [1, 1]];
+		// piece.forEach(loc => {
+		// 	var c = loc[0] + +col, r = loc[1] + +row;
+		// 	if (board[r] && !!(board[r][c] !== undefined)) {
+		// 		// ensure the change is within board boundary
+		// 		board[r][c] = 'r';
+		// 	}
+		// })
+		const R = piece('r');
+		placePiece(board, R, +row, +col);
 		this.setState({ board: board });
 	}
 
@@ -45,7 +52,6 @@ export default class App extends Component {
   	const { width, height, board } = this.state;
   	return (
   		<div>
-  			YOU MADE IT
   			<Board
   				board={board}
   				onClickHandler={this.onClickHandler}
