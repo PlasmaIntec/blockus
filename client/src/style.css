@@ -1,3 +1,9 @@
+html, body {
+	margin: 0;
+	height: 100%;
+	width: 100%;
+}
+
 .board {
 	display: flex;
 	justify-content: center;
@@ -26,4 +32,18 @@
 
 .red {
 	background: red;
+}
+
+#draggable {
+	position: absolute;
+}
+
+.empty {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 2em;
+	width: 2em;
+	outline: 1px black dashed;
+	z-index: -1;	
 }

@@ -65,9 +65,48 @@ var checkPlacePiece = (board, piece, x, y) => {
     return true;
 }
 
+var findCorners = piece => {
+    var corners = new Set();
+    var adjacents = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    var diagonals = [[1, 1], [-1, 1], [1, -1], [-1, -1]];
+    piece.forEach((row, y) => {
+        row.forEach((p, x) => {
+            if (p) {
+                diagonals.forEach(diag => {
+                    var hasEdgeConflict = false;
+                    for (let i = 0; i < adjacents.length; i++) {
+                        try {
+                            if (piece[y + diag[0] + adjacents[i][0]][x + diag[1] + adjacents[i][1]]) {
+                                hasEdgeConflict = true;
+                            }
+                        } catch {
+                            // can't have edge conflict outside bounds
+                        }
+                    } 
+                    var isValidDiagonal;
+                    try {
+                        if (!(piece[y + diag[0]][x + diag[1]])) {
+                            isValidDiagonal = true;
+                        } else {
+                            isValidDiagonal = false;
+                        }
+                    } catch {
+                        isValidDiagonal = true; // tiles outside bounds are valid
+                    }
+                    if (isValidDiagonal && !hasEdgeConflict) {
+                        corners.add(JSON.stringify([y + diag[0], x + diag[1]]));
+                    }
+                })
+            }
+        })
+    })
+    return Array.from(corners).map(e => JSON.parse(e));
+}
+
 export { 
     isUppercase, 
     findMass, 
+    findCorners,
     hasBorderCollision,
     hasFriendlyCorner,
     checkPlacePiece

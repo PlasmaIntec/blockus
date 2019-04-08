@@ -1,6 +1,11 @@
 import React from 'react';
 
-var Board = ({ board, onClickHandler }) => (
+var Board = ({ 
+	board, 
+	onClickHandler,
+	onDragOverHandler,
+	onDropHandler 
+}) => (
 	<div className='board'>
 		{
 			board && board.map((row, rowIndex) => (
@@ -19,9 +24,11 @@ var Board = ({ board, onClickHandler }) => (
 								<div 
 									className={className.join(' ')}
 									key={colIndex}
-									onClick={onClickHandler}
 									data-row={rowIndex}
 									data-col={colIndex}
+									onClick={onClickHandler}
+									onDragOver={onDragOverHandler}
+									onDrop={onDropHandler}
 								>
 									{sq}
 								</div>

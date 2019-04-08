@@ -1,18 +1,17 @@
 import { 
   isUppercase, 
   findMass, 
+  findCorners,
   hasBorderCollision,
   hasFriendlyCorner,
   checkPlacePiece
-}  from './util.js';
+} from './util.js';
 
-var piece = color => {
+var piece = (color, shape = [['R', 'R']]) => {
   var C = color.toUpperCase();
-  var p = [
-     [C, C]
-  ];
+  var p = shape || [[C, C]];
   p.mass = findMass(p);
-  p.corners = [[-1, -1], [1, -1], [-1, 2], [1, 2]];
+  p.corners = findCorners(p);
   p.center = [0, 0];
   p.color = C;
   return p;
