@@ -1,28 +1,91 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-var DraggablePiece = () => (
-	<div 
-		id='draggable'
-		className='red square'
-		draggable={true}
-		onDragStart={drag_start}
-	>
-		R
-	</div>
-);
+export default class DraggablePiece extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			row: null,
+			col: null,
+		};
+		this.onDragStartHandler = this.onDragStartHandler.bind(this);
+		this.onMouseDownHandler = this.onMouseDownHandler.bind(this);
+	}
 
-export default DraggablePiece;
-
-var drag_start = (event) => {
-    var style = window.getComputedStyle(event.target, null);
-    event.dataTransfer.setData("text/plain",
+	onDragStartHandler(e) {
+    var style = window.getComputedStyle(e.target, null);
+    e.dataTransfer.setData("text/plain",
     	(
     		parseInt(style.getPropertyValue("left"),10) - 
-	    		event.clientX
+	    		e.clientX
 	    ) + ',' + 
 	    (
 	    	parseInt(style.getPropertyValue("top"),10) - 
-	    		event.clientY)
+	    		e.clientY)
     	);
-    event.dataTransfer.setData("text/id", event.target.id);
-} 
+    e.dataTransfer.setData("text/id", e.target.id);
+    e.dataTransfer.setData("text/shape", 
+    	e.target.dataset.shape);
+    e.dataTransfer.setData("text/coords", 
+    	this.state.row + ',' + this.state.col);
+	} 
+
+	onMouseDownHandler(e) {
+		const { row, col } = e.target.dataset;
+		this.setState({ row: row, col: col });
+	}
+
+	render() {
+		const { id, shape, type } = this.props;
+		return (
+			<div 
+				id={id}
+				className={'piece ' + type}
+				data-shape={JSON.stringify(shape)}
+				onDragStart={this.onDragStartHandler}
+				draggable={true}
+			>
+				{
+					shape && shape.map((row, rowIndex) => (
+						<div className='row' key={rowIndex}>
+							{
+								row && row.map((sq, colIndex) => {
+									if (!sq) {
+										return (
+											<div 
+												className='blank square'
+												key={colIndex}
+												data-row={rowIndex}
+												data-col={colIndex}
+												onMouseDown={this.onMouseDownHandler}
+											>
+											</div>
+										)
+									}
+									var className = [], sqUpper = sq && sq.toUpperCase();
+									switch(sqUpper) {
+										case 'R':
+											className.push('red');
+										default:
+											className.push('square');
+											break;
+									}
+									return (
+										<div
+											className={className.join(' ')}
+											key={colIndex}
+											data-row={rowIndex}
+											data-col={colIndex}
+											onMouseDown={this.onMouseDownHandler}
+										>
+											{sq}
+										</div>
+									)
+								})
+							}
+						</div>
+					))
+				}
+			</div>
+		)
+	}
+}

@@ -6,6 +6,19 @@ html, body {
 
 .board {
 	display: flex;
+	width: fit-content;
+	margin: auto;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.piece {
+	display: flex;
+	width: fit-content;
+	margin: auto;
+	position: absolute;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
@@ -34,6 +47,16 @@ html, body {
 	background: red;
 }
 
+._longL {
+	left: 300px;
+	top: 300px;	
+}
+
+._2x2 {
+	left: 500px;
+	top: 300px;	
+}
+
 #draggable {
 	position: absolute;
 }
@@ -46,4 +69,9 @@ html, body {
 	width: 2em;
 	outline: 1px black dashed;
 	z-index: -1;	
+}
+
+.blank {
+	opacity: 0;
+	outline: none;
 }

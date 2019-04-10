@@ -55,7 +55,7 @@ var checkPlacePiece = (board, piece, x, y) => {
         } else if (hasBorderCollision(board, piece, x, y)) {
             return false; // SAME COLOR BORDER COLLISION
         } else if (!hasFriendlyCorner(board, piece, x, y)) {
-            return false; // HAS NO CORNER COLLISION
+            return false; // HAS NO FRIENDLY CORNER
         } else if (!board[xDisplace] || 
             board[xDisplace][yDisplace] === undefined) {
             // OUT OF BOUNDARIES            

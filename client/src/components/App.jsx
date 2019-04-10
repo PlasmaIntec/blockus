@@ -51,13 +51,20 @@ export default class App extends Component {
 	onDropHandler(e) {
 		const { board } = this.state;
 		const { row, col } = e.target.dataset;
-		const R = piece('r', [['R']]);
+    const offset = event.dataTransfer.getData("text/plain").split(',');
     const id = event.dataTransfer.getData("text/id");
     const elem = document.getElementById(id);
-		console.log(row, col)
-		placePiece(board, R, +row, +col);
-    elem.parentNode.removeChild(elem);
-		this.setState({ board: board });
+    const shape = JSON.parse(event.dataTransfer.getData("text/shape"));
+		const [dRow, dCol] = event.dataTransfer.getData("text/coords").split(',');
+		const R = piece('r', shape);
+		const canPlace = placePiece(board, R, +row, +col, +dRow, +dCol);
+    if (canPlace) {
+    	elem.parentNode.removeChild(elem);
+    	this.setState({ board: board });
+    } else {
+      elem.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
+    	elem.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
+    }
 		e.preventDefault();
 		return false;
 	}
@@ -72,7 +79,27 @@ export default class App extends Component {
   				onDragOverHandler={this.onDragOverHandler}
   				onDropHandler={this.onDropHandler}
   			/>
-  			<DraggablePiece />
+  			<DraggablePiece 
+  				id='rLongL'
+  				type='_longL'
+  				shape={
+  					[
+  						['R', 'R', 'R'],
+  						[0, 0, 'R'],
+  						[0, 0, 'R']
+  					]
+  				}
+  			/>
+  			<DraggablePiece 
+  				id='r2x2'
+  				type='_2x2'
+  				shape={
+  					[
+  						['R', 'R'],
+  						['R', 'R']
+  					]
+  				}
+  			/>
   		</div>
   	)
   }

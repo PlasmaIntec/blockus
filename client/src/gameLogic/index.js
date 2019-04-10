@@ -23,7 +23,10 @@ var genBoard = (row, col) => {
   return board;
 }
 
-var placePiece = (board, piece, x, y) => {
+var placePiece = (board, piece, x, y, dx, dy) => {
+  if (dx !== undefined  && dy !== undefined) {
+    piece.center = [dx, dy];
+  }
   if (checkPlacePiece(board, piece, x, y)) {
     piece.forEach((row, r) => {
       row.forEach((e, c) => {
