@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 
 import Board from './Board.jsx';
-import DraggablePiece from './DraggablePiece.jsx';
+import PlayerPieces from './PlayerPieces.jsx';
 // TODO: REFACTOR USING REDUX
 import { 
 	piece, 
@@ -14,8 +14,8 @@ export default class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			width: 5,
-			height: 5,
+			width: 10,
+			height: 10,
 			board: null
 		}
 		this.generateBoard = this.generateBoard.bind(this);
@@ -31,19 +31,27 @@ export default class App extends Component {
 	generateBoard() {
   	const { width, height } = this.state;
 		const board = genBoard(width, height);
-		board[-1] = { '-1': 'R' };
+		board[-1] = { 
+			'-1': 'R', 
+			[width]: 'G' 
+		};
+		board[height] = { 
+			'-1': 'B', 
+			[width]: 'Y' 
+		};
 		this.setState({ board: board });
 	} 
 
 	onClickHandler(e) {
 		const { board } = this.state;
 		const { row, col } = e.target.dataset;
-		const R = piece('r');
-		placePiece(board, R, +row, +col);
+		const coloredPiece = piece('r');
+		placePiece(board, coloredPiece, +row, +col);
 		this.setState({ board: board });
 	}
 
 	onDragOverHandler(e) {
+		// TODO: IMPLEMENT MOVE PREVIEW
 		e.preventDefault();
 		return false;
 	}	
@@ -53,11 +61,12 @@ export default class App extends Component {
 		const { row, col } = e.target.dataset;
     const offset = event.dataTransfer.getData("text/plain").split(',');
     const id = event.dataTransfer.getData("text/id");
+    const color = event.dataTransfer.getData("text/color");
     const elem = document.getElementById(id);
     const shape = JSON.parse(event.dataTransfer.getData("text/shape"));
 		const [dRow, dCol] = event.dataTransfer.getData("text/coords").split(',');
-		const R = piece('r', shape);
-		const canPlace = placePiece(board, R, +row, +col, +dRow, +dCol);
+		const coloredPiece = piece(color, shape);
+		const canPlace = placePiece(board, coloredPiece, +row, +col, +dRow, +dCol);
     if (canPlace) {
     	elem.parentNode.removeChild(elem);
     	this.setState({ board: board });
@@ -79,27 +88,10 @@ export default class App extends Component {
   				onDragOverHandler={this.onDragOverHandler}
   				onDropHandler={this.onDropHandler}
   			/>
-  			<DraggablePiece 
-  				id='rLongL'
-  				type='_longL'
-  				shape={
-  					[
-  						['R', 'R', 'R'],
-  						[0, 0, 'R'],
-  						[0, 0, 'R']
-  					]
-  				}
-  			/>
-  			<DraggablePiece 
-  				id='r2x2'
-  				type='_2x2'
-  				shape={
-  					[
-  						['R', 'R'],
-  						['R', 'R']
-  					]
-  				}
-  			/>
+  			<PlayerPieces color='red' /> 
+  			<PlayerPieces color='green' />  	
+  			<PlayerPieces color='blue' />  
+  			<PlayerPieces color='yellow' />  		
   		</div>
   	)
   }

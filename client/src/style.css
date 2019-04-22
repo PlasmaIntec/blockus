@@ -8,10 +8,11 @@ html, body {
 	display: flex;
 	width: fit-content;
 	margin: auto;
-	position: relative;
-	justify-content: center;
-	align-items: center;
+	position: absolute;
 	flex-direction: column;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .piece {
@@ -47,6 +48,18 @@ html, body {
 	background: red;
 }
 
+.green {
+	background: green;
+}
+
+.blue {
+	background: blue;
+}
+
+.yellow {
+	background: yellow;
+}
+
 ._longL {
 	left: 300px;
 	top: 300px;	
@@ -55,10 +68,6 @@ html, body {
 ._2x2 {
 	left: 500px;
 	top: 300px;	
-}
-
-#draggable {
-	position: absolute;
 }
 
 .empty {

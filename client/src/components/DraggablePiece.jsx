@@ -23,6 +23,8 @@ export default class DraggablePiece extends Component {
 	    		e.clientY)
     	);
     e.dataTransfer.setData("text/id", e.target.id);
+    e.dataTransfer.setData("text/color", 
+    	e.target.dataset.color);
     e.dataTransfer.setData("text/shape", 
     	e.target.dataset.shape);
     e.dataTransfer.setData("text/coords", 
@@ -35,12 +37,13 @@ export default class DraggablePiece extends Component {
 	}
 
 	render() {
-		const { id, shape, type } = this.props;
+		const { id, shape, type, color } = this.props;
 		return (
 			<div 
 				id={id}
 				className={'piece ' + type}
 				data-shape={JSON.stringify(shape)}
+				data-color={color}
 				onDragStart={this.onDragStartHandler}
 				draggable={true}
 			>
@@ -65,10 +68,18 @@ export default class DraggablePiece extends Component {
 									switch(sqUpper) {
 										case 'R':
 											className.push('red');
-										default:
-											className.push('square');
+											break;
+										case 'G':
+											className.push('green');
+											break;
+										case 'B':
+											className.push('blue');
+											break;
+										case 'Y':
+											className.push('yellow');
 											break;
 									}
+									className.push('square');
 									return (
 										<div
 											className={className.join(' ')}

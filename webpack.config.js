@@ -6,7 +6,7 @@ var webpack = require('webpack');
 module.exports = {
   mode: 'development',
   entry: [
-    'webpack-hot-middleware/client?reload=true',
+    // 'webpack-hot-middleware/client?reload=true',
     `${SRC_DIR}/index.js`,
   ],
   output: {
@@ -14,13 +14,13 @@ module.exports = {
     path: DIST_DIR
   },
   devtool: 'eval-source-map',
-  plugins: [
-    // OccurrenceOrderPlugin is needed for webpack 1.x only
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    // Use NoErrorsPlugin for webpack 1.x
-    new webpack.NoEmitOnErrorsPlugin()
-  ],
+  // plugins: [
+  //   // OccurrenceOrderPlugin is needed for webpack 1.x only
+  //   new webpack.optimize.OccurrenceOrderPlugin(),
+  //   new webpack.HotModuleReplacementPlugin(),
+  //   // Use NoErrorsPlugin for webpack 1.x
+  //   new webpack.NoEmitOnErrorsPlugin()
+  // ],
   module: {
     rules: [
       {

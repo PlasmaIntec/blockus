@@ -6,16 +6,16 @@ var parser = require('body-parser');
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-// HOT MODULE REPLACMENT
-var webpack = require('webpack');
-var webpackConfig = require('../webpack.config');
-var compiler = webpack(webpackConfig);
+// // HOT MODULE REPLACMENT
+// var webpack = require('webpack');
+// var webpackConfig = require('../webpack.config');
+// var compiler = webpack(webpackConfig);
 
-app.use(require("webpack-dev-middleware")(compiler, {
-    noInfo: true, publicPath: webpackConfig.output.publicPath
-}));
-app.use(require("webpack-hot-middleware")(compiler));
-// HOT MODULE REPLACMENT
+// app.use(require("webpack-dev-middleware")(compiler, {
+//     noInfo: true, publicPath: webpackConfig.output.publicPath
+// }));
+// app.use(require("webpack-hot-middleware")(compiler));
+// // HOT MODULE REPLACMENT
 
 app.use(morgan('dev'));
 
