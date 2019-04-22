@@ -60,7 +60,7 @@ html, body {
 	background: yellow;
 }
 
-._longL {
+/*._longL {
 	left: 300px;
 	top: 300px;	
 }
@@ -68,7 +68,7 @@ html, body {
 ._2x2 {
 	left: 500px;
 	top: 300px;	
-}
+}*/
 
 .empty {
 	display: flex;

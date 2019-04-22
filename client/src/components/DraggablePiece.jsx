@@ -37,10 +37,11 @@ export default class DraggablePiece extends Component {
 	}
 
 	render() {
-		const { id, shape, type, color } = this.props;
+		const { id, shape, type, color, left, top } = this.props;
 		return (
 			<div 
 				id={id}
+				style={{ left: `${left}px`, top: `${top}px`}}
 				className={'piece ' + type}
 				data-shape={JSON.stringify(shape)}
 				data-color={color}

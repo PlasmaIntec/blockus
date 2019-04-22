@@ -88,10 +88,10 @@ export default class App extends Component {
   				onDragOverHandler={this.onDragOverHandler}
   				onDropHandler={this.onDropHandler}
   			/>
-  			<PlayerPieces color='red' /> 
-  			<PlayerPieces color='green' />  	
-  			<PlayerPieces color='blue' />  
-  			<PlayerPieces color='yellow' />  		
+  			<PlayerPieces color='red' left={50} top={50} /> 
+  			<PlayerPieces color='green' left={1200} top={600} />  	
+  			<PlayerPieces color='blue' left={50} top={600} />  
+  			<PlayerPieces color='yellow' left={1200} top={50} />  		
   		</div>
   	)
   }
