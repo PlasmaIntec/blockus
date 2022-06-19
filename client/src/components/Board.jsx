@@ -2,13 +2,15 @@ import React from 'react';
 
 const Board = ({ 
 	board, 
+	width,
+	height,
 	onClickHandler,
 	onDragOverHandler,
 	onDropHandler 
 }) => {
 	if (!board) return null;
 	let mappedBoard = [];
-	for (let rowIndex = 0; rowIndex < board.length - 1; rowIndex++) {
+	for (let rowIndex = 0; rowIndex < height; rowIndex++) {
 		let row = board[rowIndex];
 		mappedBoard.push(
 			<div className='row' key={rowIndex}>
