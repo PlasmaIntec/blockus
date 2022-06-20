@@ -108,11 +108,11 @@ export default () => {
 	if (assignedColor === "red") {
 		assignedPlayerPieces = (<PlayerPieces color='red' left={50} top={50} />)
 	} else if (assignedColor === "yellow") {
-		assignedPlayerPieces = (<PlayerPieces color='yellow' left={1200} top={600} />)
+		assignedPlayerPieces = (<PlayerPieces color='yellow' left={50} top={50} />)
 	} else if (assignedColor === "blue") {
-		assignedPlayerPieces = (<PlayerPieces color='blue' left={50} top={600} />)
+		assignedPlayerPieces = (<PlayerPieces color='blue' left={50} top={50} />)
 	} else if (assignedColor === "green") {
-		assignedPlayerPieces = (<PlayerPieces color='green' left={1200} top={50} />)
+		assignedPlayerPieces = (<PlayerPieces color='green' left={50} top={50} />)
 	}
 
 	return (
