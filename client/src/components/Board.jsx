@@ -4,6 +4,8 @@ const Board = ({
 	board, 
 	width,
 	height,
+	anchorPoints,
+	anchorPointsColor,
 	onClickHandler,
 	onDragOverHandler,
 	onDropHandler 
@@ -24,6 +26,15 @@ const Board = ({
 			return "yellow-inset-outline"
 		}
 		return ""
+	}
+
+	const anchorPointsColorToStyle = (color) => {
+		return {
+			"red": "red-inset-outline",
+			"green": "green-inset-outline",
+			"blue": "blue-inset-outline",
+			"yellow": "yellow-inset-outline",
+		}[color];
 	}
 
 	let mappedBoard = [];
@@ -49,7 +60,12 @@ const Board = ({
 								break;
 						}
 						className.push('square');
-						className.push(coordinateToStyle(rowIndex, colIndex))
+						className.push(coordinateToStyle(rowIndex, colIndex));
+						
+						if (anchorPoints.find(e => rowIndex == e[0] && colIndex == e[1])) {
+							className.push(anchorPointsColorToStyle(anchorPointsColor));
+						}
+
 						return (
 							<div 
 								className={className.join(' ')}

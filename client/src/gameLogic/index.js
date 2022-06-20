@@ -37,4 +37,21 @@ var placePiece = (board, piece, x, y) => {
   return newBoard;
 }
 
-export { piece, genBoard, placePiece };
+const findAnchorPoints = (board, height, width, color) => {
+  const anchorPoints = [];
+
+  const C = color.toUpperCase();
+  const checker = piece(color, [[C]]);
+  
+  for (let row = 0; row < height; row++) {
+    for (let col = 0; col < width; col++) {
+      if (checkPlacePiece(board, checker, row, col)) {
+        anchorPoints.push([row, col]);
+      }
+    }
+  }
+
+  return anchorPoints;
+}
+
+export { piece, genBoard, placePiece, findAnchorPoints };

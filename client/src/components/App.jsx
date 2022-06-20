@@ -10,6 +10,7 @@ import {
 	piece, 
 	genBoard, 
 	placePiece,
+	findAnchorPoints,
 } from '../gameLogic/index';
 
 import { checkPlacePiece } from "../gameLogic/util"
@@ -30,6 +31,7 @@ const generateBoard = (width, height) => {
 export default () => {
 	const [width, useWidth] = useState(20);
 	const [height, useHeight] = useState(20);
+	const [anchorPoints, useAnchorPoints] = useState([]);
 	const [board, useBoard] = useState(generateBoard(width, height));
 	const [assignedColor, useAssignedColor] = useState(null);
 	const [socket, useSocket] = useState(null);
@@ -90,6 +92,8 @@ export default () => {
 					socket.emit("move", { ...newBoard }); 
 					useBoard(newBoard);
 					elem.parentNode.removeChild(elem);
+
+					useAnchorPoints(findAnchorPoints(newBoard, height, width, color));
 				} else {
 					elem.style.left = elementLeft;
 					elem.style.top = elementTop;
@@ -121,6 +125,8 @@ export default () => {
 				board={board}
 				width={width}
 				height={height}
+				anchorPoints={anchorPoints}
+				anchorPointsColor={assignedColor}
 				onClickHandler={onClickHandler}
 				onDragOverHandler={onDragOverHandler}
 				onDropHandler={onDropHandler}
