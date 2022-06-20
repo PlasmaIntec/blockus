@@ -60,7 +60,6 @@ const Board = ({
 								onDragOver={onDragOverHandler}
 								onDrop={onDropHandler}
 							>
-								{sq}
 							</div>
 						)
 					})

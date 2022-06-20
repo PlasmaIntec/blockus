@@ -117,7 +117,6 @@ export default class DraggablePiece extends Component {
 											data-col={colIndex}
 											onMouseDown={this.onMouseDownHandler}
 										>
-											{sq}
 										</div>
 									)
 								})
