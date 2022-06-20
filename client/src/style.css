@@ -83,3 +83,23 @@ html, body {
 	opacity: 0;
 	outline: none;
 }
+
+.red-inset-outline {
+	outline: 5px red inset;
+	z-index: 1;
+}
+
+.green-inset-outline {
+	outline: 5px green inset;
+	z-index: 1;
+}
+
+.blue-inset-outline {
+	outline: 5px blue inset;
+	z-index: 1;
+}
+
+.yellow-inset-outline {
+	outline: 5px yellow inset;
+	z-index: 1;
+}

@@ -8,7 +8,24 @@ const Board = ({
 	onDragOverHandler,
 	onDropHandler 
 }) => {
-	if (!board) return null;
+	if (!board) return null;	
+
+	const coordinateToStyle = (x, y) => {
+		if (x == 0 && y == 0) {
+			return "red-inset-outline"
+		}
+		if (x == 0 && y == width-1) {
+			return "green-inset-outline"
+		}
+		if (x == height-1 && y == 0) {
+			return "blue-inset-outline"
+		}
+		if (x == height-1 && y == width-1) {
+			return "yellow-inset-outline"
+		}
+		return ""
+	}
+
 	let mappedBoard = [];
 	for (let rowIndex = 0; rowIndex < height; rowIndex++) {
 		let row = board[rowIndex];
@@ -32,6 +49,7 @@ const Board = ({
 								break;
 						}
 						className.push('square');
+						className.push(coordinateToStyle(rowIndex, colIndex))
 						return (
 							<div 
 								className={className.join(' ')}
