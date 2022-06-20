@@ -107,6 +107,10 @@ export default () => {
 		return false;
 	}
 
+	const passTurn = () => {
+		console.log("pass")
+		socket.emit("move", board);
+	};
 
 	let assignedPlayerPieces;
 	if (assignedColor === "red") {
@@ -132,6 +136,7 @@ export default () => {
 				onDropHandler={onDropHandler}
 			/>
 		  	{ assignedPlayerPieces }	
+			<button onClick={passTurn}>Pass</button>
 		</div>
 	)
 }
