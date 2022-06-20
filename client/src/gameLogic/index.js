@@ -23,21 +23,16 @@ var genBoard = (row, col) => {
   return board;
 }
 
-var placePiece = (board, piece, x, y, dx, dy) => {
-  if (dx !== undefined  && dy !== undefined) {
-    piece.center = [dx, dy];
-  }
-  if (checkPlacePiece(board, piece, x, y)) {
-    piece.forEach((row, r) => {
-      row.forEach((e, c) => {
-        var xDisplace = x + r - piece.center[0];
-        var yDisplace = y + c - piece.center[1];
-        board[xDisplace][yDisplace] = e;
-      })
+var placePiece = (board, piece, x, y) => {
+  const newBoard = { ...board };
+  piece.forEach((row, r) => {
+    row.forEach((e, c) => {
+      var xDisplace = x + r - piece.center[0];
+      var yDisplace = y + c - piece.center[1];
+      newBoard[xDisplace][yDisplace] = e;
     })
-    return true;        
-  }
-  return false;
+  })
+  return newBoard;
 }
 
 export { piece, genBoard, placePiece };

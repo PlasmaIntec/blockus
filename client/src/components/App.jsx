@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Board from './Board.jsx';
 import PlayerPieces from './PlayerPieces.jsx';
@@ -9,72 +9,63 @@ import { io } from "socket.io-client";
 import { 
 	piece, 
 	genBoard, 
-	placePiece
-} from '../gameLogic';
+	placePiece,
+} from '../gameLogic/index';
 
-export default class App extends Component {
-	constructor() {
-		super();
-		this.state = {
-			width: 20,
-			height: 20,
-			board: null
-		}
-		this.generateBoard = this.generateBoard.bind(this);
-		this.onClickHandler = this.onClickHandler.bind(this);
-		this.onDragOverHandler = this.onDragOverHandler.bind(this);
-		this.onDropHandler = this.onDropHandler.bind(this);
-	}
+import { checkPlacePiece } from "../gameLogic/util"
 
-	componentDidMount() {		
-		this.generateBoard();	
+const generateBoard = (width, height) => {
+	const board = genBoard(width, height);
+	board[-1] = { 
+		'-1': 'R', 
+		[width]: 'G' 
+	};
+	board[height] = { 
+		'-1': 'B', 
+		[width]: 'Y' 
+	};
+	return board;
+} 
 
-		this.socket = io();
+export default () => {
+	const [width, useWidth] = useState(20);
+	const [height, useHeight] = useState(20);
+	const [board, useBoard] = useState(generateBoard(width, height));
+	const [assignedColor, useAssignedColor] = useState(null);
+	const [socket, useSocket] = useState(null);
 
-		this.socket.on('game', (msg) => {
+	useEffect(() => {
+		const socket = io();
+	
+		socket.on('game', (msg) => {
 			console.log(msg)
 		});
-
-		this.socket.on('move', (board) => {
-			this.setState({ board });
+	
+		socket.on('move', (board) => {
+			useBoard(board);
+		})
+	
+		socket.on('assign-color', (assignedColor) => {
+			useAssignedColor(assignedColor);
 		})
 
-		this.socket.on('assign-color', (assignedColor) => {
-			this.setState({ assignedColor });
-		})
-	}
+		useSocket(socket);
+	}, []);
 
-	generateBoard() {
-  	const { width, height } = this.state;
-		const board = genBoard(width, height);
-		board[-1] = { 
-			'-1': 'R', 
-			[width]: 'G' 
-		};
-		board[height] = { 
-			'-1': 'B', 
-			[width]: 'Y' 
-		};
-		this.setState({ board: board });
-	} 
-
-	onClickHandler(e) {
-		const { board } = this.state;
+	const onClickHandler = (e) => {
 		const { row, col } = e.target.dataset;
 		const coloredPiece = piece('r');
 		placePiece(board, coloredPiece, +row, +col);
-		this.setState({ board: board });
+		useBoard(board);
 	}
 
-	onDragOverHandler(e) {
+	const onDragOverHandler = (e) => {
 		// TODO: IMPLEMENT MOVE PREVIEW
 		e.preventDefault();
 		return false;
 	}	
 
-	onDropHandler(e) {
-		const { board } = this.state;
-
+	const onDropHandler = (e) => {
 		const { row, col } = e.target.dataset;
 
 		const offset = e.dataTransfer.getData("text/plain").split(',');
@@ -89,15 +80,16 @@ export default class App extends Component {
 		// since we cannot access event data in socket callback,
 		// we need to store event data beforehand
 
-		this.socket.emit("can-move", (canMove) => {
+		socket.emit("can-move", (canMove) => {
 			if (canMove) {
 				const coloredPiece = piece(color, shape);
-				const canPlace = placePiece(board, coloredPiece, +row, +col, +dRow, +dCol);
+				const canPlace = checkPlacePiece(board, coloredPiece, +row, +col, +dRow, +dCol);
 				if (canPlace) {
+					const newBoard = placePiece(board, coloredPiece, +row, +col);
 					// need to cast board as object to preserve corner colors
-					this.socket.emit("move", { ...board }); 
+					socket.emit("move", { ...newBoard }); 
+					useBoard(newBoard);
 					elem.parentNode.removeChild(elem);
-					this.setState({ board });
 				} else {
 					elem.style.left = elementLeft;
 					elem.style.top = elementTop;
@@ -111,8 +103,6 @@ export default class App extends Component {
 		return false;
 	}
 
-  render() {
-  	const { width, height, board, assignedColor } = this.state;
 
 	let assignedPlayerPieces;
 	if (assignedColor === "red") {
@@ -125,18 +115,17 @@ export default class App extends Component {
 		assignedPlayerPieces = (<PlayerPieces color='green' left={1200} top={50} />)
 	}
 
-  	return (
-  		<div>
-  			<Board
-  				board={board}
+	return (
+		<div>
+			<Board
+				board={board}
 				width={width}
 				height={height}
-  				onClickHandler={this.onClickHandler}
-  				onDragOverHandler={this.onDragOverHandler}
-  				onDropHandler={this.onDropHandler}
-  			/>
-			{ assignedPlayerPieces }	
-  		</div>
-  	)
-  }
+				onClickHandler={onClickHandler}
+				onDragOverHandler={onDragOverHandler}
+				onDropHandler={onDropHandler}
+			/>
+		  	{ assignedPlayerPieces }	
+		</div>
+	)
 }

@@ -9,6 +9,7 @@ export default class DraggablePiece extends Component {
 		};
 		this.onDragStartHandler = this.onDragStartHandler.bind(this);
 		this.onMouseDownHandler = this.onMouseDownHandler.bind(this);
+		this.onDoubleClickHandler = this.onDoubleClickHandler.bind(this);
 	}
 
 	onDragStartHandler(e) {
@@ -36,6 +37,32 @@ export default class DraggablePiece extends Component {
 		this.setState({ row: row, col: col });
 	}
 
+	onDoubleClickHandler(e) {
+		const { id, shape, type, idx, updatePiece } = this.props;
+		const zip = (...arr) => Array(Math.max(...arr.map(a => a.length))).fill().map((_,i) => arr.map(a => a[i]));  
+		const flip = (shape) => {
+			shape.reverse();
+			return shape;
+		}
+		const rotate = (shape) => {
+			shape.reverse();
+			return zip(...shape);
+		}
+		if (e.ctrlKey) {
+			updatePiece(idx, {
+				id,
+				type,
+				shape: flip(shape)
+			})
+		} else {
+			updatePiece(idx, {
+				id,
+				type,
+				shape: rotate(shape)
+			})
+		}		
+	}
+
 	render() {
 		const { id, shape, type, color, left, top } = this.props;
 		return (
@@ -46,6 +73,7 @@ export default class DraggablePiece extends Component {
 				data-shape={JSON.stringify(shape)}
 				data-color={color}
 				onDragStart={this.onDragStartHandler}
+				onDoubleClick={this.onDoubleClickHandler}
 				draggable={true}
 			>
 				{

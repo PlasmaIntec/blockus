@@ -46,7 +46,10 @@ var hasFriendlyCorner = (board, piece, x, y) => {
     return collision;
 }
 
-var checkPlacePiece = (board, piece, x, y) => {
+var checkPlacePiece = (board, piece, x, y, dx, dy) => {
+    if (dx !== undefined  && dy !== undefined) {
+      piece.center = [dx, dy];
+    }
     for (let i = 0; i < piece.mass.length; i++) {
         var xDisplace = x + piece.mass[i][0] - piece.center[0];
         var yDisplace = y + piece.mass[i][1] - piece.center[1];
