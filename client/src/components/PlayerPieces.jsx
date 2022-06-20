@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DraggablePiece from './DraggablePiece.jsx';
 
 const pieceShapes = (C) => [
@@ -183,6 +183,11 @@ const PlayerPieces = (props) => {
 		pieces.slice(0, idx).concat([newPiece]).concat(pieces.slice(idx+1))
 	)
 
+	useEffect(() => {
+		const color = props.color[0].toUpperCase();
+		usePieces(pieceShapes(color));
+	}, [props.color]);
+
 	return (
 		<div>
 			{
@@ -193,8 +198,8 @@ const PlayerPieces = (props) => {
 						type={piece.type}
 						shape={piece.shape}
 						color={props.color[0].toUpperCase()}
-						left={+props.left + idx * 30}
-						top={+props.top + (idx % 5) * 150}
+						left={+props.left + idx * 40}
+						top={+props.top + (idx % 8) * 150}
 						idx={idx}
 						updatePiece={updatePiece}
 					/>
