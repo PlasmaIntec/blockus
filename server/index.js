@@ -11,19 +11,15 @@ const io = require("socket.io")(httpServer);
 
 let colors = ["red", "green", "yellow", "blue"];
 let players = []; // array of socket ids
+let playerCount = 4;
 let turn = 0;
 let gameStarted = false;
 
 io.on('connection', (socket) => {
   console.log(`a user connected: ${socket.id}`);
   players.push(socket.id);
-  if (players.length === 4) {
-    io.emit("game", "ready to start");
-    io.to(players[0]).emit("game", "your turn");
-    
-    players.forEach((socketId, i) => io.to(socketId).emit("assign-color", colors[i]));
-    
-    gameStarted = true;
+  if (players.length === playerCount) {    
+    startGame();
   } else {
     io.emit("game", "waiting for more players");
   }
@@ -35,7 +31,7 @@ io.on('connection', (socket) => {
 
   socket.on("can-move", (callback) => {
     let playerIndex = players.indexOf(socket.id);
-    if (gameStarted && turn % 4 === playerIndex) {
+    if (gameStarted && turn % playerCount === playerIndex) {
       callback(true);
     } else {
       callback(false);
@@ -45,9 +41,25 @@ io.on('connection', (socket) => {
   socket.on('move', (board) => {
     socket.broadcast.emit("move", board);
     turn++;
-    io.to(players[turn%4]).emit("game", "your turn");
+    io.to(players[turn % playerCount]).emit("game", "your turn");
   });
+
+  socket.on('force-start', () => {
+    playerCount = players.length;
+    startGame();
+  })
 });
+
+const startGame = () => {    
+  console.log(`game started`)
+  
+  io.emit("game", "ready to start");
+  io.to(players[0]).emit("game", "your turn");
+  
+  players.forEach((socketId, i) => io.to(socketId).emit("assign-color", colors[i]));
+  
+  gameStarted = true;
+}
 
 // // HOT MODULE REPLACMENT
 // var webpack = require('webpack');

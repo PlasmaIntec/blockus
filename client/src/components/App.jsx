@@ -112,6 +112,11 @@ export default () => {
 		socket.emit("move", board);
 	};
 
+	const forceStart = () => {
+		console.log("force start")
+		socket.emit("force-start");
+	};
+
 	let assignedPlayerPieces;
 	if (assignedColor === "red") {
 		assignedPlayerPieces = (<PlayerPieces color='red' left={50} top={50} />)
@@ -137,6 +142,7 @@ export default () => {
 			/>
 		  	{ assignedPlayerPieces }	
 			<button onClick={passTurn}>Pass</button>
+			<button onClick={forceStart}>Force Start</button>
 		</div>
 	)
 }
