@@ -1,7 +1,7 @@
 var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
-const uuid = require('uuid');
+const uuid = require('uuid').v4;
 
 var app = express();
 var PORT = process.env.PORT || 3000;
