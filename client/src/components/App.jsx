@@ -34,6 +34,7 @@ export default () => {
 	const [anchorPoints, useAnchorPoints] = useState([]);
 	const [board, useBoard] = useState(generateBoard(width, height));
 	const [assignedColor, useAssignedColor] = useState(null);
+	const [roomId, useRoomId] = useState(null);
 	const [socket, useSocket] = useState(null);
 
 	useEffect(() => {
@@ -47,8 +48,9 @@ export default () => {
 			useBoard(board);
 		})
 	
-		socket.on('assign-color', (assignedColor) => {
+		socket.on('initialize', (assignedColor, roomId) => {
 			useAssignedColor(assignedColor);
+			useRoomId(roomId);
 		})
 
 		useSocket(socket);
@@ -82,14 +84,14 @@ export default () => {
 		// since we cannot access event data in socket callback,
 		// we need to store event data beforehand
 
-		socket.emit("can-move", (canMove) => {
+		socket.emit("can-move", roomId, (canMove) => {
 			if (canMove) {
 				const coloredPiece = piece(color, shape);
 				const canPlace = checkPlacePiece(board, coloredPiece, +row, +col, +dRow, +dCol);
 				if (canPlace) {
 					const newBoard = placePiece(board, coloredPiece, +row, +col);
 					// need to cast board as object to preserve corner colors
-					socket.emit("move", { ...newBoard }); 
+					socket.emit("move", roomId, { ...newBoard }); 
 					useBoard(newBoard);
 					elem.parentNode.removeChild(elem);
 
