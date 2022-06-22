@@ -8,18 +8,20 @@
     "dev": "nodemon server/index.js",
     "docker": "node server/index.js",
     "build": "webpack",
-    "build-dev": "webpack -d --watch"
+    "build-dev": "webpack -d --watch",
+    "heroku-deploy": "git push heroku master"
   },
   "author": "PlasmaIntec",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.17.1",
+    "morgan": "^1.9.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "morgan": "^1.9.1",
     "socket.io": "^4.5.1",
-    "socket.io-client": "^4.5.1"
+    "socket.io-client": "^4.5.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
