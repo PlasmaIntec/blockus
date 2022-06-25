@@ -10,8 +10,8 @@ html, body {
 	margin: auto;
 	position: absolute;
 	flex-direction: column;
-	top: 50px;
-	left: 1200px;
+	top: 10%;
+	left: 40%;
 }
 
 .piece {
